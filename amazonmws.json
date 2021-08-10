@@ -1,0 +1,715 @@
+{
+    "name": "Amazon MWS Handler",
+    "flow": [
+        {
+            "id": 64,
+            "module": "json:CreateJSON",
+            "version": 1,
+            "parameters": {
+                "type": 172506,
+                "space": ""
+            },
+            "mapper": {
+                "RequestParameters": {
+                    "List": [
+                        {
+                            "name": "Action",
+                            "value": "ListInventorySupply"
+                        },
+                        {
+                            "name": "SellerId",
+                            "value": "SellerId"
+                        },
+                        {
+                            "name": "MWSAuthToken",
+                            "value": "MWSAuthToken"
+                        },
+                        {
+                            "name": "SignatureVersion",
+                            "value": "2"
+                        },
+                        {
+                            "name": "Timestamp",
+                            "value": "{{encodeURL(toString(now))}}"
+                        },
+                        {
+                            "name": "Version",
+                            "value": "2010-10-01"
+                        },
+                        {
+                            "name": "SignatureMethod",
+                            "value": "HmacSHA256"
+                        },
+                        {
+                            "name": "AWSAccessKeyId",
+                            "value": "AWSAccessKeyId"
+                        },
+                        {
+                            "name": "SellerSkus.member.1",
+                            "value": "SellerSkus"
+                        }
+                    ]
+                },
+                "ConnectionParameters": {
+                    "method": "post",
+                    "SecretKey": "SecretKey",
+                    "Host": "mws.amazonservices.com",
+                    "Action": "ListInventorySupply",
+                    "APISection": "/FulfillmentInventory/2010-10-01"
+                }
+            },
+            "metadata": {
+                "designer": {
+                    "x": 0,
+                    "y": 0
+                },
+                "restore": {
+                    "type": {
+                        "label": "amazondemo"
+                    },
+                    "space": {
+                        "label": ""
+                    },
+                    "RequestParameters": {
+                        "nested": {
+                            "List": {
+                                "mode": "chose",
+                                "items": [
+                                    "undefined",
+                                    "undefined",
+                                    "undefined",
+                                    "undefined",
+                                    "undefined",
+                                    "undefined",
+                                    "undefined",
+                                    "undefined",
+                                    "undefined"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "type",
+                        "label": "Data structure",
+                        "type": "udt",
+                        "required": true
+                    },
+                    {
+                        "name": "space",
+                        "label": "Indentation",
+                        "type": "select",
+                        "validate": {
+                            "enum": [
+                                "tab",
+                                "2",
+                                "4"
+                            ]
+                        }
+                    }
+                ],
+                "expect": [
+                    {
+                        "name": "RequestParameters",
+                        "type": "collection",
+                        "label": "RequestParameters",
+                        "spec": [
+                            {
+                                "name": "List",
+                                "type": "array",
+                                "spec": [
+                                    {
+                                        "name": "name",
+                                        "type": "text"
+                                    },
+                                    {
+                                        "name": "value",
+                                        "type": "text"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "name": "ConnectionParameters",
+                        "type": "collection",
+                        "label": "ConnectionParameters",
+                        "spec": [
+                            {
+                                "name": "method",
+                                "type": "text"
+                            },
+                            {
+                                "name": "SecretKey",
+                                "type": "text"
+                            },
+                            {
+                                "name": "Host",
+                                "type": "text"
+                            },
+                            {
+                                "name": "Action",
+                                "type": "text"
+                            },
+                            {
+                                "name": "APISection",
+                                "type": "text"
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            "id": 65,
+            "module": "json:ParseJSON",
+            "version": 1,
+            "parameters": {
+                "type": 172506
+            },
+            "mapper": {
+                "json": "{{64.json}}"
+            },
+            "metadata": {
+                "designer": {
+                    "x": 300,
+                    "y": 0
+                },
+                "restore": {
+                    "type": {
+                        "label": "amazondemo"
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "type",
+                        "label": "Data structure",
+                        "type": "udt"
+                    }
+                ],
+                "expect": [
+                    {
+                        "name": "json",
+                        "label": "JSON string",
+                        "type": "text",
+                        "required": true
+                    }
+                ],
+                "interface": [
+                    {
+                        "name": "RequestParameters",
+                        "type": "collection",
+                        "spec": [
+                            {
+                                "name": "List",
+                                "type": "array",
+                                "spec": {
+                                    "type": "collection",
+                                    "spec": [
+                                        {
+                                            "name": "name",
+                                            "type": "text"
+                                        },
+                                        {
+                                            "name": "value",
+                                            "type": "text"
+                                        }
+                                    ]
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "name": "ConnectionParameters",
+                        "type": "collection",
+                        "spec": [
+                            {
+                                "name": "method",
+                                "type": "text"
+                            },
+                            {
+                                "name": "SecretKey",
+                                "type": "text"
+                            },
+                            {
+                                "name": "Host",
+                                "type": "text"
+                            },
+                            {
+                                "name": "Action",
+                                "type": "text"
+                            },
+                            {
+                                "name": "APISection",
+                                "type": "text"
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            "id": 43,
+            "module": "util:SetVariable",
+            "version": 1,
+            "parameters": {},
+            "mapper": {
+                "name": "paramssorted",
+                "scope": "roundtrip",
+                "value": "{{sort(65.RequestParameters.List; \"name\")}}"
+            },
+            "metadata": {
+                "designer": {
+                    "x": 600,
+                    "y": 0,
+                    "name": "Sort Request Parameters"
+                },
+                "restore": {
+                    "scope": {
+                        "label": "One cycle"
+                    }
+                },
+                "expect": [
+                    {
+                        "name": "name",
+                        "label": "Variable name",
+                        "type": "text",
+                        "required": true
+                    },
+                    {
+                        "name": "scope",
+                        "label": "Variable lifetime",
+                        "type": "select",
+                        "required": true,
+                        "validate": {
+                            "enum": [
+                                "roundtrip",
+                                "execution"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "value",
+                        "label": "Variable value",
+                        "type": "any"
+                    }
+                ],
+                "interface": [
+                    {
+                        "name": "value",
+                        "label": "paramssorted",
+                        "type": "any"
+                    }
+                ]
+            }
+        },
+        {
+            "id": 34,
+            "module": "builtin:BasicFeeder",
+            "version": 1,
+            "parameters": {},
+            "mapper": {
+                "array": "{{43.value}}"
+            },
+            "metadata": {
+                "designer": {
+                    "x": 900,
+                    "y": 0,
+                    "name": "Loop thru Request Parameters"
+                },
+                "restore": {
+                    "array": {
+                        "mode": "edit"
+                    }
+                },
+                "expect": [
+                    {
+                        "mode": "edit",
+                        "name": "array",
+                        "spec": [],
+                        "type": "array",
+                        "label": "Array"
+                    }
+                ]
+            }
+        },
+        {
+            "id": 31,
+            "module": "util:TextAggregator",
+            "version": 1,
+            "parameters": {
+                "feeder": 34,
+                "rowSeparator": "other",
+                "otherRowSeparator": "&"
+            },
+            "mapper": {
+                "value": "{{34.name}}={{34.value}}"
+            },
+            "metadata": {
+                "designer": {
+                    "x": 1200,
+                    "y": 0,
+                    "name": "Write Querystring"
+                },
+                "restore": {
+                    "feeder": {
+                        "label": "Loop thru Request Parameters [34]"
+                    },
+                    "rowSeparator": {
+                        "label": "Other"
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "rowSeparator",
+                        "type": "select",
+                        "label": "Row separator",
+                        "validate": {
+                            "enum": [
+                                "\n",
+                                "\t",
+                                "other"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "otherRowSeparator",
+                        "type": "text",
+                        "label": "Separator"
+                    }
+                ],
+                "expect": [
+                    {
+                        "name": "value",
+                        "type": "text",
+                        "label": "Text",
+                        "multiline": true
+                    }
+                ],
+                "advanced": true
+            }
+        },
+        {
+            "id": 45,
+            "module": "util:SetVariable",
+            "version": 1,
+            "parameters": {},
+            "mapper": {
+                "name": "signature",
+                "scope": "roundtrip",
+                "value": "{{encodeURL(sha256(upper(65.ConnectionParameters.method) + newline + 65.ConnectionParameters.Host + newline + 65.ConnectionParameters.APISection + newline + 31.text; \"base64\"; 65.ConnectionParameters.SecretKey))}}"
+            },
+            "metadata": {
+                "designer": {
+                    "x": 1500,
+                    "y": 0,
+                    "name": "Sign Querystring"
+                },
+                "restore": {
+                    "scope": {
+                        "label": "One cycle"
+                    }
+                },
+                "expect": [
+                    {
+                        "name": "name",
+                        "label": "Variable name",
+                        "type": "text",
+                        "required": true
+                    },
+                    {
+                        "name": "scope",
+                        "label": "Variable lifetime",
+                        "type": "select",
+                        "required": true,
+                        "validate": {
+                            "enum": [
+                                "roundtrip",
+                                "execution"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "value",
+                        "label": "Variable value",
+                        "type": "any"
+                    }
+                ],
+                "interface": [
+                    {
+                        "name": "value",
+                        "label": "signature",
+                        "type": "any"
+                    }
+                ]
+            }
+        },
+        {
+            "id": 46,
+            "module": "http:ActionSendData",
+            "version": 3,
+            "parameters": {
+                "handleErrors": false
+            },
+            "mapper": {
+                "url": "https://{{65.ConnectionParameters.Host}}{{65.ConnectionParameters.APISection}}?{{31.text}}&Signature={{45.value}}",
+                "serializeUrl": false,
+                "method": "{{lower(65.ConnectionParameters.method)}}",
+                "headers": [
+                    {
+                        "name": "x-amazon-user-agent",
+                        "value": "mex-econo/1.0"
+                    }
+                ],
+                "qs": [],
+                "bodyType": "x_www_form_urlencoded",
+                "parseResponse": true,
+                "authUser": "",
+                "authPass": "",
+                "timeout": "",
+                "shareCookies": false,
+                "ca": "",
+                "rejectUnauthorized": true,
+                "followRedirect": true,
+                "useQuerystring": false,
+                "gzip": true,
+                "useMtls": false,
+                "formFields": [],
+                "followAllRedirects": false
+            },
+            "metadata": {
+                "designer": {
+                    "x": 1800,
+                    "y": 0,
+                    "name": "Call Amazon MWS"
+                },
+                "restore": {
+                    "method": {
+                        "mode": "edit"
+                    },
+                    "headers": {
+                        "mode": "chose",
+                        "items": [
+                            "undefined"
+                        ]
+                    },
+                    "qs": {
+                        "mode": "chose",
+                        "items": []
+                    },
+                    "bodyType": {
+                        "label": "Application/x-www-form-urlencoded"
+                    },
+                    "formFields": {
+                        "mode": "chose",
+                        "items": []
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "handleErrors",
+                        "label": "Evaluate all states as errors (except for 2xx and 3xx )",
+                        "type": "boolean",
+                        "required": true
+                    }
+                ],
+                "expect": [
+                    {
+                        "name": "url",
+                        "label": "URL",
+                        "type": "url",
+                        "required": true
+                    },
+                    {
+                        "name": "serializeUrl",
+                        "label": "Serialize URL",
+                        "type": "boolean",
+                        "required": true
+                    },
+                    {
+                        "name": "method",
+                        "label": "Method",
+                        "type": "select",
+                        "required": true,
+                        "validate": {
+                            "enum": [
+                                "get",
+                                "head",
+                                "post",
+                                "put",
+                                "patch",
+                                "delete"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "headers",
+                        "label": "Headers",
+                        "type": "array",
+                        "spec": [
+                            {
+                                "name": "name",
+                                "label": "Name",
+                                "type": "text",
+                                "required": true
+                            },
+                            {
+                                "name": "value",
+                                "label": "Value",
+                                "type": "text"
+                            }
+                        ],
+                        "labels": {
+                            "add": "Add a header",
+                            "edit": "Edit a header"
+                        }
+                    },
+                    {
+                        "name": "qs",
+                        "label": "Query String",
+                        "type": "array",
+                        "spec": [
+                            {
+                                "name": "name",
+                                "label": "Name",
+                                "type": "text",
+                                "required": true
+                            },
+                            {
+                                "name": "value",
+                                "label": "Value",
+                                "type": "text"
+                            }
+                        ],
+                        "labels": {
+                            "add": "Add parameter",
+                            "edit": "Edit parameter"
+                        }
+                    },
+                    {
+                        "name": "bodyType",
+                        "label": "Body type",
+                        "type": "select",
+                        "validate": {
+                            "enum": [
+                                "raw",
+                                "x_www_form_urlencoded",
+                                "multipart_form_data"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "parseResponse",
+                        "label": "Parse response",
+                        "type": "boolean",
+                        "required": true
+                    },
+                    {
+                        "name": "authUser",
+                        "label": "User name",
+                        "type": "text"
+                    },
+                    {
+                        "name": "authPass",
+                        "label": "Password",
+                        "type": "password"
+                    },
+                    {
+                        "name": "timeout",
+                        "label": "Timeout",
+                        "type": "uinteger",
+                        "validate": {
+                            "max": 300,
+                            "min": 1
+                        }
+                    },
+                    {
+                        "name": "shareCookies",
+                        "label": "Share cookies with other HTTP modules",
+                        "type": "boolean",
+                        "required": true
+                    },
+                    {
+                        "name": "ca",
+                        "label": "Self-signed certificate",
+                        "type": "cert",
+                        "multiline": true
+                    },
+                    {
+                        "name": "rejectUnauthorized",
+                        "label": "Reject connections that are using unverified (self-signed) certificates",
+                        "type": "boolean",
+                        "required": true
+                    },
+                    {
+                        "name": "followRedirect",
+                        "label": "Follow redirect",
+                        "type": "boolean",
+                        "required": true
+                    },
+                    {
+                        "name": "useQuerystring",
+                        "label": "Disable serialization of multiple same query string keys as arrays",
+                        "type": "boolean",
+                        "required": true
+                    },
+                    {
+                        "name": "gzip",
+                        "label": "Request compressed content",
+                        "type": "boolean",
+                        "required": true
+                    },
+                    {
+                        "name": "useMtls",
+                        "label": "Use Mutual TLS",
+                        "type": "boolean",
+                        "required": true
+                    },
+                    {
+                        "name": "formFields",
+                        "label": "Fields",
+                        "type": "array",
+                        "spec": [
+                            {
+                                "name": "key",
+                                "label": "Key",
+                                "type": "text",
+                                "required": true
+                            },
+                            {
+                                "name": "value",
+                                "label": "Value",
+                                "type": "text"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "followAllRedirects",
+                        "label": "Follow all redirect",
+                        "type": "boolean",
+                        "required": true
+                    }
+                ],
+                "advanced": true
+            }
+        }
+    ],
+    "metadata": {
+        "version": 1,
+        "scenario": {
+            "roundtrips": 1,
+            "shatter": false,
+            "maxErrors": 3,
+            "autoCommit": false,
+            "sequential": false,
+            "confidential": false,
+            "dataloss": false,
+            "dlq": false
+        },
+        "designer": {
+            "orphans": []
+        },
+        "zone": "eu1.integromat.com"
+    }
+}
