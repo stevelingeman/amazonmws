@@ -1,0 +1,51 @@
+[
+    {
+        "RequestParameters": {
+            "List": [
+                {
+                    "name": "Action",
+                    "value": "ListInventorySupply"
+                },
+                {
+                    "name": "SellerId",
+                    "value": "SellerId"
+                },
+                {
+                    "name": "MWSAuthToken",
+                    "value": "MWSAuthToken"
+                },
+                {
+                    "name": "SignatureVersion",
+                    "value": "2"
+                },
+                {
+                    "name": "Timestamp",
+                    "value": "2021-08-10T07%3A14%3A12.290Z"
+                },
+                {
+                    "name": "Version",
+                    "value": "2010-10-01"
+                },
+                {
+                    "name": "SignatureMethod",
+                    "value": "HmacSHA256"
+                },
+                {
+                    "name": "AWSAccessKeyId",
+                    "value": "AWSAccessKeyId"
+                },
+                {
+                    "name": "SellerSkus.member.1",
+                    "value": "HF-PJ5O-H8YV"
+                }
+            ]
+        },
+        "ConnectionParameters": {
+            "Host": "mws.amazonservices.com",
+            "Action": "ListInventorySupply",
+            "method": "post",
+            "SecretKey": "secretkey",
+            "APISection": "/FulfillmentInventory/2010-10-01"
+        }
+    }
+]
